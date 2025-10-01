@@ -1,0 +1,10 @@
+\venv
+\uploads
+\templates
+\line_segments
+\inferences
+\annotations
+.env
+\__pycache__
+\llama.cpp
+
