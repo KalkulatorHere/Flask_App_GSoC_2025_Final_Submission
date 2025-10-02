@@ -13,24 +13,64 @@ This Flask application provides advanced OCR capabilities with line segmentation
 
 ## Installation
 
-1. Install dependencies:
+Detectron2 and PyTorch require platform/CUDA-specific wheels. Follow these steps exactly to avoid import errors.
+
+1) Create and activate a fresh virtual environment (Windows PowerShell):
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+2) Install PyTorch for your platform/CUDA:
+- Visit `https://pytorch.org/get-started/locally/` and copy the command shown.
+- Examples:
+  - CUDA 12.1: `pip install --index-url https://download.pytorch.org/whl/cu121 torch torchvision torchaudio`
+  - CPU-only: `pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision torchaudio`
+
+3) Install base dependencies from this repo:
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Set up Gemini API key:
-   - The API key is already configured in the code
-   - Or set environment variable: `GEMINI_API_KEY=your_api_key`
+4) Install Detectron2 matching your PyTorch and CUDA:
+- Find wheel links at `https://dl.fbaipublicfiles.com/detectron2/wheels/cu121/torch2.4/index.html` (adjust cu/torch versions).
+- Or use CPU wheel if available: `https://dl.fbaipublicfiles.com/detectron2/wheels/cpu/torch2.4/index.html`.
+- Example (CUDA 12.1, Torch 2.4):
+```bash
+pip install -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu121/torch2.4/index.html detectron2==0.6
+```
 
-3. Download the Detectron2 model:
-   - Place your model file at the specified path in the code
-   - Update the model path in `load_textline_model()` function
+If you use a different Torch/CUDA, pick the corresponding wheel folder. A mismatch will cause `ModuleNotFoundError: detectron2` or CUDA errors.
+
+5) Optional: Local LLaMA
+- To enable local LLaMA correction, install `llama-cpp-python` (CPU wheels commonly available):
+```bash
+pip install llama-cpp-python
+```
+If building from source fails on Windows, leave it uninstalled; the app will run without local LLaMA.
+
+6) Environment variables:
+- `GEMINI_API_KEY`: Google Gemini API key (required for Gemini correction)
+- `HF_API_TOKEN`: HuggingFace API token (optional)
+- `LLAMA_MODEL_PATH`: Path to local LLaMA model (optional)
+
+7) Detectron2 weights/model path:
+- Place your Detectron2 weights file where configured in `modular_app/config.py` (`textline_model_path`).
+- If the file is missing, the app falls back to a mock textline detector.
 
 ## Usage
 
+Quick start (Windows PowerShell):
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python app_final.py
+```
+
 1. Start the Flask server:
 ```bash
-python app2.py
+python app_final.py
 ```
 
 2. Access the web interface at `http://localhost:5000`
