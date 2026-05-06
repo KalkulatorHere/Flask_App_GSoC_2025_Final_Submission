@@ -24,7 +24,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'pdf'}
 IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff'}
 
 # Model paths
-TEXTLINE_MODEL_PATH = r"C:\Users\prana\Downloads\model_final (8) (1).pth"
+TEXTLINE_MODEL_PATH = r"echo $env:GEMINI_API_KEYC:\Users\rdb104\Documents\caserepos\models\model_final (8) (1).pth"
 
 @dataclass
 class AppConfig:

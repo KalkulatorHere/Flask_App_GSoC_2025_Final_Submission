@@ -150,13 +150,16 @@ Corrected text:
             logger.warning(f"LLaMA model path not found: {self.config.llama_model_path}")
             return False
         
+        # AFTER ✅
         try:
             # Ensure you accepted Llama 3.1 Community License before downloading weights. 
-            # See: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
+             # See: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
             self.local_llama_client = Llama(
                 model_path=self.config.llama_model_path,
-                n_ctx=2048,
+                n_ctx=4096,           # Increased from 2048 for longer documents
                 n_threads=4,
+                n_gpu_layers=-1,      # Offload ALL layers to GPU
+                tensor_split=[0.5, 0.5],    # 50/50 split between GPU 0 and GPU 1    
                 verbose=False
             )
             logger.info("Local LLaMA model initialized successfully")
@@ -164,6 +167,7 @@ Corrected text:
         except Exception as e:
             logger.error(f"Failed to initialize local LLaMA: {e}")
             return False
+
     
     def try_local_llama_correction(self, text: str, context: str = "") -> Tuple[str, str]:
         """Try local LLaMA for text correction"""
