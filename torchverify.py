@@ -8,6 +8,10 @@ print(f"GPU Count:              {torch.cuda.device_count()}")
 print(f"cuDNN version:          {torch.backends.cudnn.version()}")
 
 '''
+HERE
+pip install llama-cpp-python --no-cache-dir --force-reinstall --verbose 2>&1 | Tee-Object -FilePath llama_build.log
+
+
 # Create the virtual environment
 python -m venv renaissance_ocr
 
