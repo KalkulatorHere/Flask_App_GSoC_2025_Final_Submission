@@ -81,7 +81,7 @@ def create_app() -> Flask:
             logger.info("Ollama model pre-loaded successfully")
         except Exception as e:
             logger.warning(f"Could not pre-load Ollama model: {e}")
-
+            
         # Register routes
         logger.info("Registering routes...")
         routes_bp = create_routes(config, ocr_processing_service, llm_service)

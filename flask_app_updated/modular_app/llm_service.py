@@ -17,12 +17,7 @@ except ImportError:
     GEMINI_AVAILABLE = False
     print("Gemini API not available - install google-generativeai")
 
-try:
-    from llama_cpp import Llama
-    LLAMA_CPP_AVAILABLE = True
-except ImportError:
-    LLAMA_CPP_AVAILABLE = False
-    logging.info("llama-cpp-python not available")
+LLAMA_CPP_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
@@ -139,16 +134,18 @@ Corrected text:
         return text, "hf_failed"
     
     def init_local_llama(self) -> bool:
-        """Initialize local LLaMA client lazily"""
-        if self.local_llama_client is not None:
-            return True
-        
-        if not LLAMA_CPP_AVAILABLE or not self.config.llama_model_path:
-            return False
-        
-        if not os.path.exists(self.config.llama_model_path):
-            logger.warning(f"LLaMA model path not found: {self.config.llama_model_path}")
-            return False
+        """Check if Ollama is available"""
+        try:
+            response = requests.get(
+                "http://localhost:11434",
+                timeout=5
+            )
+            if "Ollama is running" in response.text:
+                logger.info("Ollama service is available")
+                return True
+        except Exception as e:
+            logger.warning(f"Ollama not available: {e}")
+        return False
         
         # AFTER ✅
         try:
@@ -170,28 +167,32 @@ Corrected text:
 
     
     def try_local_llama_correction(self, text: str, context: str = "") -> Tuple[str, str]:
-        """Try local LLaMA for text correction"""
+        """Try local LLaMA via Ollama for text correction"""
         if not self.init_local_llama():
             return text, "local_llama_unavailable"
-        
+
         prompt = self.create_correction_prompt(text, context)
-        
+
         try:
-            response = self.local_llama_client(
-                prompt,
-                max_tokens=512,
-                temperature=0.3,
-                stop=["Human:", "\n\n"],
-                echo=False
+            response = requests.post(
+                "http://localhost:11434/api/generate",
+                json={
+                    "model": "llama70b",
+                    "prompt": prompt,
+                    "stream": False
+                },
+                timeout=self.config.llm_timeout_seconds
             )
-            
-            generated_text = response['choices'][0]['text'].strip()
-            if generated_text:
-                return generated_text, "local_llama"
-                
+
+            if response.status_code == 200:
+                result = response.json()
+                generated_text = result.get('response', '').strip()
+                if generated_text:
+                    return generated_text, "local_llama"
+
         except Exception as e:
-            logger.error(f"Local LLaMA correction failed: {e}")
-        
+            logger.error(f"Ollama correction failed: {e}")
+
         return text, "local_llama_failed"
     
     def process_text_with_fallbacks(self, text: str, context: str = "", max_tokens: int = 1024, retries: int = 2) -> Tuple[str, str]:
