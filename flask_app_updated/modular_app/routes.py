@@ -19,16 +19,19 @@ def create_routes(config, ocr_processing_service, llm_service) -> Blueprint:
     routes_bp = Blueprint('routes', __name__)
     
     @routes_bp.route('/')
+    @routes_bp.route('/')
     def home():
         """Serve the main HTML file directly"""
         try:
-            # Look for the HTML file in the current directory
+            # Get the directory where routes.py lives
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            
             html_files = ['index.html', 'paste.html', 'main.html']
             for html_file in html_files:
-                if os.path.exists(html_file):
-                    return send_file(html_file)
+                full_path = os.path.join(base_dir, html_file)
+                if os.path.exists(full_path):
+                    return send_file(full_path)
             
-            # If no HTML file found, return a basic error page
             return """
             <!DOCTYPE html>
             <html>
@@ -558,9 +561,13 @@ def create_routes(config, ocr_processing_service, llm_service) -> Blueprint:
         # Check LLM availability
         gemini_available = hasattr(llm_service, 'config') and bool(llm_service.config.gemini_api_key)
         hf_available = hasattr(llm_service, 'config') and bool(llm_service.config.hf_api_token)
-        local_llama_available = (hasattr(llm_service, 'config') and 
-                               llm_service.config.llama_model_path and 
-                               os.path.exists(llm_service.config.llama_model_path))
+        # Replace the local_llama_available line with this
+        try:
+            import requests as req
+            ollama_response = req.get("http://localhost:11434", timeout=3)
+            local_llama_available = "Ollama is running" in ollama_response.text
+        except Exception:
+            local_llama_available = False
         
         # Check if Llama license acceptance is required
         llama_license_required = True  # Always true since it's a gated model

@@ -11,7 +11,7 @@ GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 HF_API_TOKEN = os.getenv('HF_API_TOKEN')
 LLAMA_MODEL_PATH = os.getenv('LLAMA_MODEL_PATH')
 FALLBACK_CHUNK_SIZE = int(os.getenv('FALLBACK_CHUNK_SIZE', '8000'))
-LLM_TIMEOUT_SECONDS = int(os.getenv('LLM_TIMEOUT_SECONDS', '15'))
+LLM_TIMEOUT_SECONDS = int(os.getenv('LLM_TIMEOUT_SECONDS', '600'))
 
 # Directory configuration
 UPLOAD_FOLDER = 'uploads'
