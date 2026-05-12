@@ -143,54 +143,32 @@ Corrected text:
         
         return text, "hf_failed"
     
-    def init_local_llama(self) -> bool:
-        """Initialize local LLaMA client lazily"""
-        if self.local_llama_client is not None:
-            return True
-        
-        if not LLAMA_CPP_AVAILABLE or not self.config.llama_model_path:
-            return False
-        
-        if not os.path.exists(self.config.llama_model_path):
-            logger.warning(f"LLaMA model path not found: {self.config.llama_model_path}")
-            return False
-        
-        try:
-            self.local_llama_client = Llama(
-                model_path=self.config.llama_model_path,
-                n_ctx=2048,
-                n_threads=4,
-                verbose=False
-            )
-            logger.info("Local LLaMA model initialized successfully")
-            return True
-        except Exception as e:
-            logger.error(f"Failed to initialize local LLaMA: {e}")
-            return False
-    
+    import requests  # already available in the file
+
     def try_local_llama_correction(self, text: str, context: str = "") -> Tuple[str, str]:
-        """Try local LLaMA for text correction"""
-        if not self.init_local_llama():
-            return text, "local_llama_unavailable"
-        
+        """Try local LLaMA via Ollama for text correction"""
         prompt = self.create_correction_prompt(text, context)
-        
+    
         try:
-            response = self.local_llama_client(
-                prompt,
-                max_tokens=512,
-                temperature=0.3,
-                stop=["Human:", "\n\n"],
-                echo=False
+            response = requests.post(
+                "http://localhost:11434/api/generate",
+                json={
+                    "model": "llama3.1:70b-instruct-q4_K_M",
+                    "prompt": prompt,
+                    "stream": False
+                },
+                timeout=self.config.llm_timeout_seconds
             )
-            
-            generated_text = response['choices'][0]['text'].strip()
-            if generated_text:
-                return generated_text, "local_llama"
+        
+            if response.status_code == 200:
+                result = response.json()
+                generated_text = result.get('response', '').strip()
+                if generated_text:
+                    return generated_text, "local_llama"
                 
         except Exception as e:
-            logger.error(f"Local LLaMA correction failed: {e}")
-        
+            logger.error(f"Ollama correction failed: {e}")
+    
         return text, "local_llama_failed"
     
     def process_text_with_fallbacks(self, text: str, context: str = "", 

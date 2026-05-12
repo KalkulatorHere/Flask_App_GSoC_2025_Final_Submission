@@ -70,6 +70,18 @@ def create_app() -> Flask:
         except Exception as e:
             logger.warning(f"LLM fallback test failed: {e}")
         
+        # Pre-load Ollama model into VRAM at startup
+        import requests
+        try:
+            requests.post("http://localhost:11434/api/generate",
+                json={"model": "llama3.1:70b-instruct-q4_K_M", 
+                    "prompt": "hello",
+                    "stream": False},
+                timeout=300)
+            logger.info("Ollama model pre-loaded successfully")
+        except Exception as e:
+            logger.warning(f"Could not pre-load Ollama model: {e}")
+
         # Register routes
         logger.info("Registering routes...")
         routes_bp = create_routes(config, ocr_processing_service, llm_service)
