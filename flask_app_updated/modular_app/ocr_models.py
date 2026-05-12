@@ -41,21 +41,36 @@ class TextlineExtractor:
         self.cfg = self.setup_cfg(model_path)
         self.predictor = DefaultPredictor(self.cfg)
         
-        # Initialize TrOCR
+        # --- NEW TrOCR LOCAL SETUP ---
         print("Loading TrOCR model in TextlineExtractor...")
+        
+        # Path to your downloaded model
+        SPANISH_PATH = r"C:\Users\rdb104\Documents\caserepos\models\trocr_span"
+        
         if TRANSFORMERS_AVAILABLE:
-            try:
-                self.trocr_processor = TrOCRProcessor.from_pretrained('qantev/trocr-large-spanish')
-                self.trocr_model = VisionEncoderDecoderModel.from_pretrained('qantev/trocr-large-spanish')
-            except Exception as e:
-                print(f"Spanish model failed, using fallback: {e}")
-                self.trocr_processor = TrOCRProcessor.from_pretrained('microsoft/trocr-base-printed')
-                self.trocr_model = VisionEncoderDecoderModel.from_pretrained('microsoft/trocr-base-printed')
-            
-            # Move to GPU if available
+            # Determine device first so we can move the model immediately
             self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-            self.trocr_model.to(self.device)
-            print(f"TrOCR model loaded on {self.device}")
+            
+            try:
+                print(f"Loading local Spanish model from: {SPANISH_PATH}")
+                self.trocr_processor = TrOCRProcessor.from_pretrained(SPANISH_PATH)
+                self.trocr_model = VisionEncoderDecoderModel.from_pretrained(
+                    SPANISH_PATH,
+                    low_cpu_mem_usage=False,  # FIX: Prevents meta device error
+                    local_files_only=True     # Ensure it doesn't try to use the web
+                ).to(self.device)             # Move to CPU/GPU immediately
+                
+                print(f"TrOCR Spanish model loaded on {self.device}")
+
+            except Exception as e:
+                print(f"Local Spanish model failed: {e}")
+                print("Using cloud fallback (Internet required)...")
+                # Fallback to the cloud version if the local folder is empty/broken
+                self.trocr_processor = TrOCRProcessor.from_pretrained('microsoft/trocr-base-printed')
+                self.trocr_model = VisionEncoderDecoderModel.from_pretrained(
+                    'microsoft/trocr-base-printed'
+                ).to(self.device)
+                print(f"Fallback model loaded on {self.device}")
         else:
             raise ImportError("Transformers not available")
         
