@@ -177,7 +177,7 @@ Corrected text:
             response = requests.post(
                 "http://localhost:11434/api/generate",
                 json={
-                    "model": "llama70b",
+                    "model": "llama3.1:70b-instruct-q4_K_M",
                     "prompt": prompt,
                     "stream": False
                 },
