@@ -84,6 +84,14 @@ def print_config_summary(config: AppConfig) -> None:
     print(f"HuggingFace API Token: {'✓' if config.hf_api_token else '✗'}")
     print(f"LLaMA Model Path: {'✓' if config.llama_model_path else '✗'}")
     print(f"Textline Model Path: {'✓' if os.path.exists(config.textline_model_path) else '✗'}")
+    
+    try:
+        import importlib.metadata
+        kraken_version = importlib.metadata.version('kraken')
+        print(f"Kraken Segmentation: ✓ ({kraken_version})")
+    except Exception:
+        print(f"Kraken Segmentation: ✗ (not installed)")
+
     print(f"Upload Folder: {config.upload_folder}")
     print(f"Max File Size: {config.max_file_size / (1024*1024):.1f}MB")
     print(f"Chunk Size: {config.fallback_chunk_size}")

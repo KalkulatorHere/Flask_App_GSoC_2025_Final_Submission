@@ -477,35 +477,54 @@ class OCRModelsService:
                 self.textline_extractor = None
 
     def extract_textlines_from_image(self, image_path: str):
-        """Extract textlines from image using advanced pipeline or fallback"""
+        """Extract textlines using Kraken baseline segmentation with fallback"""
         try:
             image = cv2.imread(image_path)
             if image is None:
                 raise ValueError("Could not load image")
 
-            if self.textline_extractor is not None:
-                try:
-                    boxes, scores, outputs = self.textline_extractor.extract_textlines(image)
-                    return boxes, scores, image
-                except Exception as e:
-                    print(f"Advanced textline detection failed: {e}")
+            # Try Kraken segmentation first
+            try:
+                from kraken import blla
+                from PIL import Image as PILImage
+                import numpy as np
 
-            # Fallback mock textline detection
+                print("Running Kraken baseline segmentation...")
+                pil_image = PILImage.open(image_path).convert('RGB')
+                result = blla.segment(pil_image)
+
+                boxes = []
+                for line in result.lines:
+                    if hasattr(line, 'boundary') and line.boundary:
+                        pts = np.array(line.boundary, dtype=np.int32)
+                        x1 = int(pts[:, 0].min())
+                        y1 = int(pts[:, 1].min())
+                        x2 = int(pts[:, 0].max())
+                        y2 = int(pts[:, 1].max())
+                        # Filter out boxes that are too small to be real lines
+                        if (x2 - x1) > 50 and (y2 - y1) > 10:
+                            boxes.append([x1, y1, x2, y2])
+
+                if len(boxes) > 0:
+                    print(f"Kraken found {len(boxes)} text lines")
+                    return np.array(boxes), np.ones(len(boxes)), image
+
+                print("Kraken found no lines, falling back to mock")
+
+            except Exception as e:
+                print(f"Kraken segmentation failed: {e}")
+
+            # Fallback mock only if Kraken fails completely
             print("Using fallback mock textline detection")
             height, width = image.shape[:2]
             mock_boxes = []
-            mock_scores = []
-
             line_height = height // 10
             for i in range(5):
                 y1 = i * line_height + 50
                 y2 = (i + 1) * line_height - 20
-                x1 = 50
-                x2 = width - 50
-                mock_boxes.append([x1, y1, x2, y2])
-                mock_scores.append(0.9)
+                mock_boxes.append([50, y1, width - 50, y2])
 
-            return np.array(mock_boxes), np.array(mock_scores), image
+            return np.array(mock_boxes), np.ones(len(mock_boxes)), image
 
         except Exception as e:
             print(f"Textline extraction error: {str(e)}")
