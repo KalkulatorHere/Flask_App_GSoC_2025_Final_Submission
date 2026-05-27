@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR Editor</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        header input[type="text"] {
+            padding: 7px 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            width: 320px;
+        }
+
+        button {
+            padding: 7px 14px;
+            font-size: 13px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-green  { background: #27ae60; color: white; }
+        .btn-blue   { background: #2980b9; color: white; }
+        .btn-orange { background: #e67e22; color: white; }
+        .btn-grey   { background: #7f8c8d; color: white; }
+
+        button:hover { opacity: 0.85; }
+
+        #message {
+            padding: 10px 20px;
+            font-size: 13px;
+            display: none;
+        }
+
+        #message.success { background: #d5f5e3; color: #1e8449; }
+        #message.error   { background: #fadbd8; color: #922b21; }
+
+        .stats-bar {
+            background: #ecf0f1;
+            padding: 8px 20px;
+            font-size: 12px;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+            display: none;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            padding: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 13px;
+            table-layout: fixed;
+        }
+
+        thead tr {
+            background: #2c3e50;
+            color: white;
+        }
+
+        thead th {
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        thead th:nth-child(1) { width: 50px; }
+        thead th:nth-child(2) { width: 22%; }
+        thead th:nth-child(3) { width: 22%; }
+        thead th:nth-child(4) { width: 28%; }
+        thead th:nth-child(5) { width: 80px; }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover { background: #fafafa; }
+        tbody tr.edited { background: #fef9e7; }
+
+        td {
+            padding: 6px 8px;
+            vertical-align: top;
+            word-break: break-word;
+        }
+
+        .line-num {
+            text-align: center;
+            color: #999;
+            font-size: 11px;
+            padding-top: 8px;
+        }
+
+        .text-cell {
+            padding: 5px 6px;
+            border-radius: 3px;
+            line-height: 1.4;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            min-height: 28px;
+        }
+
+        .raw-cell      { background: #f8f9fa; color: #555; font-style: italic; }
+        .llm-cell      { background: #eafaf1; color: #1e8449; }
+        .empty-cell    { color: #bbb; font-style: italic; }
+
+        .edit-input {
+            width: 100%;
+            padding: 5px 6px;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            resize: vertical;
+            min-height: 32px;
+            line-height: 1.4;
+        }
+
+        .edit-input:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 3px rgba(41,128,185,0.4);
+        }
+
+        .status-badge {
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 3px;
+            background: #ecf0f1;
+            color: #666;
+            display: inline-block;
+        }
+
+        .status-badge.edited-badge {
+            background: #f39c12;
+            color: white;
+        }
+
+        .full-text-panel {
+            margin: 0 15px 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            display: none;
+        }
+
+        .full-text-panel h3 {
+            padding: 10px 15px;
+            background: #ecf0f1;
+            border-bottom: 1px solid #ddd;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .full-text-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 8px 15px;
+            font-size: 12px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            border-radius: 0;
+            font-weight: normal;
+        }
+
+        .tab-btn.active {
+            color: #2980b9;
+            border-bottom-color: #2980b9;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            padding: 15px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.7;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>OCR Editor</h1>
+    <input type="text" id="filenameInput"
+           placeholder="Enter image filename e.g. page_0001_123456789.jpg">
+    <button class="btn-green"  onclick="loadFile()">Load</button>
+    <button class="btn-green"  onclick="saveEdits()">Save Edits</button>
+    <button class="btn-blue"   onclick="toggleFullText()">Full Text View</button>
+    <button class="btn-orange" onclick="downloadText()">Download TXT</button>
+    <button class="btn-orange" onclick="downloadLines()">Download Lines TXT</button>
+    <button class="btn-grey"   onclick="clearAll()">Clear</button>
+</header>
+
+<div id="message"></div>
+<div id="statsBar" class="stats-bar"></div>
+
+<div class="full-text-panel" id="fullTextPanel">
+    <div class="full-text-tabs">
+        <button class="tab-btn active" onclick="switchTab('raw')">Raw TrOCR</button>
+        <button class="tab-btn" onclick="switchTab('prellm')">Pre-LLM</button>
+        <button class="tab-btn" onclick="switchTab('corrected')">LLM Corrected</button>
+        <button class="tab-btn" onclick="switchTab('manual')">Manual / Final</button>
+    </div>
+    <div id="tab-raw"       class="tab-content active"></div>
+    <div id="tab-prellm"    class="tab-content"></div>
+    <div id="tab-corrected" class="tab-content"></div>
+    <div id="tab-manual"    class="tab-content"></div>
+</div>
+
+<div class="table-wrap" id="tableWrap" style="display:none">
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Raw TrOCR Output</th>
+                <th>LLM Corrected</th>
+                <th>Manual Edit (editable)</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="lineRows"></tbody>
+    </table>
+</div>
+
+<script>
+    let currentFilename = null
+    let linesData = []
+    let fullTextData = {}
+
+    // ── Load file ──────────────────────────────────────────────
+    function loadFile() {
+        const filename = document.getElementById('filenameInput').value.trim()
+        if (!filename) { showMessage('Please enter a filename', 'error'); return }
+
+        fetch(`/get_editable_text/${encodeURIComponent(filename)}`)
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) { showMessage('Error: ' + data.error, 'error'); return }
+
+                currentFilename = filename
+                linesData = data.lines || []
+                fullTextData = {
+                    raw:       data.original_text  || '',
+                    prellm:    data.pre_llm_text   || '',
+                    corrected: data.corrected_text || '',
+                    manual:    data.manual_text    || ''
+                }
+
+                renderLines(linesData)
+                updateFullTextPanels()
+
+                document.getElementById('tableWrap').style.display = 'block'
+                document.getElementById('statsBar').style.display  = 'block'
+                document.getElementById('statsBar').textContent =
+                    `Loaded: ${filename}   |   Lines: ${data.total_lines}   |   ` +
+                    `LLM corrected: ${data.corrected_text ? 'yes' : 'no'}   |   ` +
+                    `Manually edited: ${data.manual_text ? 'yes' : 'no'}`
+
+                showMessage(`Loaded ${data.total_lines} lines`, 'success')
+            })
+            .catch(e => showMessage('Failed to load: ' + e, 'error'))
+    }
+
+    // ── Render line table ──────────────────────────────────────
+    function renderLines(lines) {
+        const tbody = document.getElementById('lineRows')
+        tbody.innerHTML = ''
+
+        lines.forEach((line, i) => {
+            const raw       = line.original  || ''
+            const llm       = line.corrected || ''
+            const manual    = line.manual    || llm
+            const wasEdited = line.manually_edited
+
+            const tr = document.createElement('tr')
+            tr.id = `row-${i}`
+            if (wasEdited) tr.classList.add('edited')
+
+            tr.innerHTML = `
+                <td class="line-num">${line.line_index + 1}</td>
+                <td>
+                    <div class="text-cell raw-cell ${raw ? '' : 'empty-cell'}">
+                        ${escHtml(raw) || '(empty)'}
+                    </div>
+                </td>
+                <td>
+                    <div class="text-cell llm-cell ${llm ? '' : 'empty-cell'}">
+                        ${escHtml(llm) || '(no LLM output)'}
+                    </div>
+                </td>
+                <td>
+                    <textarea class="edit-input"
+                              id="edit-${i}"
+                              rows="2"
+                              oninput="markEdited(${i})"
+                              onkeydown="handleKey(event,${i})"
+                    >${escHtml(manual)}</textarea>
+                </td>
+                <td>
+                    <span class="status-badge ${wasEdited ? 'edited-badge' : ''}"
+                          id="badge-${i}">
+                        ${wasEdited ? 'edited' : (line.correction_status || 'none')}
+                    </span>
+                </td>
+            `
+            tbody.appendChild(tr)
+        })
+    }
+
+    // ── Mark row as edited ─────────────────────────────────────
+    function markEdited(i) {
+        document.getElementById(`row-${i}`).classList.add('edited')
+        const badge = document.getElementById(`badge-${i}`)
+        badge.textContent = 'edited'
+        badge.classList.add('edited-badge')
+    }
+
+    // ── Tab / Enter navigation ─────────────────────────────────
+    function handleKey(e, i) {
+        if (e.key === 'Tab' || (e.key === 'Enter' && !e.shiftKey)) {
+            e.preventDefault()
+            const next = document.getElementById(`edit-${i + 1}`)
+            if (next) { next.focus(); next.select() }
+        }
+    }
+
+    // ── Save edits ─────────────────────────────────────────────
+    function saveEdits() {
+        if (!currentFilename) { showMessage('No file loaded', 'error'); return }
+
+        const editedLines = linesData.map((line, i) => ({
+            line_index: line.line_index,
+            corrected:  document.getElementById(`edit-${i}`).value
+        }))
+
+        fetch('/save_edits', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ filename: currentFilename, lines: editedLines })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                fullTextData.manual = data.manual_text || ''
+                updateFullTextPanels()
+                document.querySelectorAll('tr.edited').forEach(r => r.classList.remove('edited'))
+                showMessage('Saved successfully', 'success')
+            } else {
+                showMessage('Save failed: ' + data.error, 'error')
+            }
+        })
+        .catch(e => showMessage('Save failed: ' + e, 'error'))
+    }
+
+    // ── Full text panel ────────────────────────────────────────
+    function toggleFullText() {
+        const panel = document.getElementById('fullTextPanel')
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none'
+    }
+
+    function updateFullTextPanels() {
+        document.getElementById('tab-raw').textContent       = fullTextData.raw       || '(none)'
+        document.getElementById('tab-prellm').textContent    = fullTextData.prellm    || '(none)'
+        document.getElementById('tab-corrected').textContent = fullTextData.corrected || '(none)'
+        document.getElementById('tab-manual').textContent    = fullTextData.manual    || '(none)'
+    }
+
+    function switchTab(name) {
+        document.querySelectorAll('.tab-btn').forEach((b, i) => {
+            b.classList.toggle('active', ['raw','prellm','corrected','manual'][i] === name)
+        })
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'))
+        document.getElementById('tab-' + name).classList.add('active')
+    }
+
+    // ── Downloads ──────────────────────────────────────────────
+    function downloadText() {
+        if (!currentFilename) { showMessage('No file loaded', 'error'); return }
+        window.location.href = `/download_text/${encodeURIComponent(currentFilename)}`
+    }
+
+    function downloadLines() {
+        if (!currentFilename) { showMessage('No file loaded', 'error'); return }
+        window.location.href = `/download_lines/${encodeURIComponent(currentFilename)}`
+    }
+
+    // ── Clear ──────────────────────────────────────────────────
+    function clearAll() {
+        currentFilename = null
+        linesData = []
+        document.getElementById('filenameInput').value = ''
+        document.getElementById('lineRows').innerHTML = ''
+        document.getElementById('tableWrap').style.display = 'none'
+        document.getElementById('statsBar').style.display  = 'none'
+        document.getElementById('fullTextPanel').style.display = 'none'
+    }
+
+    // ── Helpers ────────────────────────────────────────────────
+    function showMessage(text, type) {
+        const el = document.getElementById('message')
+        el.textContent = text
+        el.className = type
+        el.style.display = 'block'
+        setTimeout(() => { el.style.display = 'none' }, 4000)
+    }
+
+    function escHtml(str) {
+        if (!str) return ''
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                  .replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+    }
+
+    document.getElementById('filenameInput')
+        .addEventListener('keydown', e => { if (e.key === 'Enter') loadFile() })
+
+    // Auto-load filename from URL parameter if present
+    (function checkUrlParam() {
+        const params = new URLSearchParams(window.location.search)
+        const filename = params.get('filename')
+        if (filename) {
+            document.getElementById('filenameInput').value = filename
+            loadFile()
+        }
+    })()
+</script>
+</body>
+</html>

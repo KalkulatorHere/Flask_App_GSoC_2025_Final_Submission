@@ -16,7 +16,7 @@ LLM_TIMEOUT_SECONDS = int(os.getenv('LLM_TIMEOUT_SECONDS', '600'))
 # Directory configuration
 UPLOAD_FOLDER = 'uploads'
 ANNOTATION_FOLDER = 'annotations'
-INFERENCE_FOLDER = 'inferences'
+INFERENCE_FOLDER = 'Model_Outputs_Json'
 LINE_SEGMENTS_FOLDER = 'line_segments'
 
 # File type configuration

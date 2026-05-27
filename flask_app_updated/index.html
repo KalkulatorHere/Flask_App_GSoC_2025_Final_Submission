@@ -636,10 +636,12 @@
         </div>
         
         <div class="toolbar">
-            <button id="drawModeBtn">🖊️ Draw Mode</button>
-            <button id="selectModeBtn">👆 Select Mode</button>
+            <button id="drawModeBtn">Draw Mode</button>
+            <button id="selectModeBtn">Select Mode</button>
             <button id="deleteBoxBtn" disabled>🗑️ Delete Selected Box</button>
             <button id="rerunInferenceBtn" class="btn-warning">🔄 Re-run OCR</button>
+            <button id="openEditorBtn" onclick="openInEditor()" disabled>Edit in Editor</button>
+            <button id="downloadTxtBtn" onclick="downloadCurrentText()" disabled>⬇️ Download TXT</button>
             <div class="image-split-controls">
                 <label for="splitImageToggle" style="margin-right: 10px; font-weight: bold;">Split Image:</label>
                 <input type="checkbox" id="splitImageToggle" style="transform: scale(1.5); margin-right: 10px;">
@@ -1523,7 +1525,22 @@
         }
         
         function updateImageName() {
-            document.getElementById('currentImageName').textContent = currentImageName || 'No image loaded';
+            document.getElementById('currentImageName').textContent = currentImageName || 'No image loaded'
+            
+            const editorBtn = document.getElementById('openEditorBtn')
+            if (editorBtn) editorBtn.disabled = !currentImageName
+
+            const downloadBtn = document.getElementById('downloadTxtBtn')
+            if (downloadBtn) downloadBtn.disabled = !currentImageName
+}
+
+        function openInEditor() {
+            if (!currentImageName) {
+                showStatus('No image loaded', 'error')
+                return
+            }
+            // Open editor in new tab pre-loaded with current filename
+            window.open(`/editor?filename=${encodeURIComponent(currentImageName)}`, '_blank')
         }
         
         function loadCurrentImage() {
@@ -1665,6 +1682,14 @@
             
             console.log("✅ App initialized");
         });
+
+        function downloadCurrentText() {
+            if (!currentImageName) {
+                showStatus('No image loaded', 'error')
+                return
+            }
+            window.location.href = `/download_text/${encodeURIComponent(currentImageName)}`
+        }
     </script>
 </body>
 </html>
