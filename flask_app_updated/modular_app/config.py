@@ -11,12 +11,12 @@ GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 HF_API_TOKEN = os.getenv('HF_API_TOKEN')
 LLAMA_MODEL_PATH = os.getenv('LLAMA_MODEL_PATH')
 FALLBACK_CHUNK_SIZE = int(os.getenv('FALLBACK_CHUNK_SIZE', '8000'))
-LLM_TIMEOUT_SECONDS = int(os.getenv('LLM_TIMEOUT_SECONDS', '15'))
+LLM_TIMEOUT_SECONDS = int(os.getenv('LLM_TIMEOUT_SECONDS', '600'))
 
 # Directory configuration
 UPLOAD_FOLDER = 'uploads'
 ANNOTATION_FOLDER = 'annotations'
-INFERENCE_FOLDER = 'inferences'
+INFERENCE_FOLDER = 'Model_Outputs_Json'
 LINE_SEGMENTS_FOLDER = 'line_segments'
 
 # File type configuration
@@ -24,7 +24,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff', 'pdf'}
 IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff'}
 
 # Model paths
-TEXTLINE_MODEL_PATH = r"C:\Users\prana\Downloads\model_final (8) (1).pth"
+TEXTLINE_MODEL_PATH = r"C:\Users\rdb104\Documents\caserepos\models\model_final (8) (1).pth"
 
 @dataclass
 class AppConfig:
@@ -84,6 +84,14 @@ def print_config_summary(config: AppConfig) -> None:
     print(f"HuggingFace API Token: {'✓' if config.hf_api_token else '✗'}")
     print(f"LLaMA Model Path: {'✓' if config.llama_model_path else '✗'}")
     print(f"Textline Model Path: {'✓' if os.path.exists(config.textline_model_path) else '✗'}")
+    
+    try:
+        import importlib.metadata
+        kraken_version = importlib.metadata.version('kraken')
+        print(f"Kraken Segmentation: ✓ ({kraken_version})")
+    except Exception:
+        print(f"Kraken Segmentation: ✗ (not installed)")
+
     print(f"Upload Folder: {config.upload_folder}")
     print(f"Max File Size: {config.max_file_size / (1024*1024):.1f}MB")
     print(f"Chunk Size: {config.fallback_chunk_size}")

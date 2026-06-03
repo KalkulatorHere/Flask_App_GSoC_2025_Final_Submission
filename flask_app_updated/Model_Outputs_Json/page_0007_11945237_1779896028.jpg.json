@@ -1,0 +1,1237 @@
+{
+  "image": "page_0007_11945237_1779896028.jpg",
+  "original_text": "(1)",
+  "pre_llm_text": "(1)",
+  "corrected_text": "",
+  "manual_text": "",
+  "line_segments": [
+    {
+      "line_index": 0,
+      "reading_order_index": 0,
+      "column": 0,
+      "position_in_column": 0,
+      "image_filename": "line_000.png",
+      "bbox": [
+        1451,
+        110,
+        1510,
+        166
+      ],
+      "padded_bbox": [
+        1441.0,
+        100.0,
+        1520.0,
+        176.0
+      ],
+      "score": 1.0,
+      "ocr_text": "3.ª",
+      "ocr_text_pre_llm": "3.ª",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 1,
+      "reading_order_index": 1,
+      "column": 0,
+      "position_in_column": 1,
+      "image_filename": "line_001.png",
+      "bbox": [
+        195,
+        142,
+        1532,
+        215
+      ],
+      "padded_bbox": [
+        185.0,
+        132.0,
+        1542.0,
+        225.0
+      ],
+      "score": 1.0,
+      "ocr_text": "húnierero de fus bienes ni de triégues, por lo que a ellos toda, y puede tolano",
+      "ocr_text_pre_llm": "húnierero de fus bienes ni de triégues, por lo que a ellos toda, y puede tolano",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 2,
+      "reading_order_index": 2,
+      "column": 0,
+      "position_in_column": 2,
+      "image_filename": "line_002.png",
+      "bbox": [
+        195,
+        196,
+        1532,
+        262
+      ],
+      "padded_bbox": [
+        185.0,
+        186.0,
+        1542.0,
+        272.0
+      ],
+      "score": 1.0,
+      "ocr_text": "G.qualiguiena de ellos, comprare, y vendiere, qualefquier dofa, por trató de Meri",
+      "ocr_text_pre_llm": "G.qualiguiena de ellos, comprare, y vendiere, qualefquier dofa, por trató de Meri",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 3,
+      "reading_order_index": 3,
+      "column": 0,
+      "position_in_column": 3,
+      "image_filename": "line_003.png",
+      "bbox": [
+        193,
+        248,
+        1531,
+        317
+      ],
+      "padded_bbox": [
+        183.0,
+        238.0,
+        1541.0,
+        327.0
+      ],
+      "score": 1.0,
+      "ocr_text": "quidenias, éjipor via de negociación de local, Inlin de pogar Alcavala, como El fueffen",
+      "ocr_text_pre_llm": "quidenias, éjipor via de negociación de local, Inlin de pogar Alcavala, como El fueffen",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 4,
+      "reading_order_index": 4,
+      "column": 0,
+      "position_in_column": 4,
+      "image_filename": "line_004.png",
+      "bbox": [
+        195,
+        296,
+        1525,
+        365
+      ],
+      "padded_bbox": [
+        185.0,
+        286.0,
+        1535.0,
+        375.0
+      ],
+      "score": 1.0,
+      "ocr_text": "Legos, y no fe entiende, que han de fér exceptuados los Clérigos del Corona, y",
+      "ocr_text_pre_llm": "Legos, y no fe entiende, que han de fér exceptuados los Clérigos del Corona, y",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 5,
+      "reading_order_index": 5,
+      "column": 0,
+      "position_in_column": 5,
+      "image_filename": "line_005.png",
+      "bbox": [
+        196,
+        350,
+        1521,
+        413
+      ],
+      "padded_bbox": [
+        186.0,
+        340.0,
+        1531.0,
+        423.0
+      ],
+      "score": 1.0,
+      "ocr_text": "Memores Ordenes, y Calados, y no (Cafados) porque todos han de pogarilla dif-",
+      "ocr_text_pre_llm": "Memores Ordenes, y Calados, y no (Cafados) porque todos han de pogarilla dif-",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 6,
+      "reading_order_index": 6,
+      "column": 0,
+      "position_in_column": 6,
+      "image_filename": "line_006.png",
+      "bbox": [
+        196,
+        398,
+        714,
+        461
+      ],
+      "padded_bbox": [
+        186.0,
+        388.0,
+        724.0,
+        471.0
+      ],
+      "score": 1.0,
+      "ocr_text": "cha Alcavala, como dicho es,",
+      "ocr_text_pre_llm": "cha Alcavala, como dicho es,",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 7,
+      "reading_order_index": 7,
+      "column": 0,
+      "position_in_column": 7,
+      "image_filename": "line_007.png",
+      "bbox": [
+        902,
+        407,
+        983,
+        450
+      ],
+      "padded_bbox": [
+        892.0,
+        397.0,
+        993.0,
+        460.0
+      ],
+      "score": 1.0,
+      "ocr_text": "20,6",
+      "ocr_text_pre_llm": "20,6",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 8,
+      "reading_order_index": 8,
+      "column": 0,
+      "position_in_column": 8,
+      "image_filename": "line_008.png",
+      "bbox": [
+        251,
+        446,
+        1530,
+        517
+      ],
+      "padded_bbox": [
+        241.0,
+        436.0,
+        1540.0,
+        527.0
+      ],
+      "score": 1.0,
+      "ocr_text": "De las colías, que de comaren por razón de las Bulas, porquatefguífer The",
+      "ocr_text_pre_llm": "De las colías, que de comaren por razón de las Bulas, porquatefguífer The",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 9,
+      "reading_order_index": 9,
+      "column": 0,
+      "position_in_column": 9,
+      "image_filename": "line_009.png",
+      "bbox": [
+        196,
+        499,
+        1531,
+        563
+      ],
+      "padded_bbox": [
+        186.0,
+        489.0,
+        1541.0,
+        573.0
+      ],
+      "score": 1.0,
+      "ocr_text": "foreros, 6 Receptores de la Santa Cruzada, y de las que por la mífina razón: G",
+      "ocr_text_pre_llm": "foreros, 6 Receptores de la Santa Cruzada, y de las que por la mífina razón: G",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 10,
+      "reading_order_index": 10,
+      "column": 0,
+      "position_in_column": 10,
+      "image_filename": "line_010.png",
+      "bbox": [
+        198,
+        553,
+        1521,
+        616
+      ],
+      "padded_bbox": [
+        188.0,
+        543.0,
+        1531.0,
+        626.0
+      ],
+      "score": 1.0,
+      "ocr_text": "uendieren pon ellos, ó.fus hacedores, no blan de pagoir Alcávala, a los iguales de no",
+      "ocr_text_pre_llm": "uendieren pon ellos, ó.fus hacedores, no blan de pagoir Alcávala, a los iguales de no",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 11,
+      "reading_order_index": 11,
+      "column": 0,
+      "position_in_column": 11,
+      "image_filename": "line_011.png",
+      "bbox": [
+        196,
+        598,
+        1534,
+        662
+      ],
+      "padded_bbox": [
+        186.0,
+        588.0,
+        1544.0,
+        672.0
+      ],
+      "score": 1.0,
+      "ocr_text": "masta juramento, quando conviniere, da han tomado, o veridiolo algunas colás que",
+      "ocr_text_pre_llm": "masta juramento, quando conviniere, da han tomado, o veridiolo algunas colás que",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 12,
+      "reading_order_index": 12,
+      "column": 0,
+      "position_in_column": 12,
+      "image_filename": "line_012.png",
+      "bbox": [
+        196,
+        648,
+        1532,
+        717
+      ],
+      "padded_bbox": [
+        186.0,
+        638.0,
+        1542.0,
+        727.0
+      ],
+      "score": 1.0,
+      "ocr_text": "no coquiená la Cruzada, de que deban pagar Alcavalo, porquie de todo lo demos",
+      "ocr_text_pre_llm": "no coquiená la Cruzada, de que deban pagar Alcavalo, porquie de todo lo demos",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 13,
+      "reading_order_index": 13,
+      "column": 0,
+      "position_in_column": 13,
+      "image_filename": "line_013.png",
+      "bbox": [
+        205,
+        700,
+        1525,
+        764
+      ],
+      "padded_bbox": [
+        195.0,
+        690.0,
+        1535.0,
+        774.0
+      ],
+      "score": 1.0,
+      "ocr_text": "que no.Ges nocante a la dicha Cruzadas le ha de cobrinla Al cávala, en la",
+      "ocr_text_pre_llm": "que no.Ges nocante a la dicha Cruzadas le ha de cobrinla Al cávala, en la",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 14,
+      "reading_order_index": 14,
+      "column": 0,
+      "position_in_column": 14,
+      "image_filename": "line_014.png",
+      "bbox": [
+        221,
+        748,
+        1525,
+        816
+      ],
+      "padded_bbox": [
+        211.0,
+        738.0,
+        1535.0,
+        826.0
+      ],
+      "score": 1.0,
+      "ocr_text": "y",
+      "ocr_text_pre_llm": "y",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 15,
+      "reading_order_index": 15,
+      "column": 0,
+      "position_in_column": 15,
+      "image_filename": "line_015.png",
+      "bbox": [
+        196,
+        800,
+        1531,
+        866
+      ],
+      "padded_bbox": [
+        186.0,
+        790.0,
+        1541.0,
+        876.0
+      ],
+      "score": 1.0,
+      "ocr_text": "Alhondizas, para provifion de los Rueblos, por ahora, no fe haide jlogan álcava",
+      "ocr_text_pre_llm": "Alhondizas, para provifion de los Rueblos, por ahora, no fe haide jlogan álcava",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 16,
+      "reading_order_index": 16,
+      "column": 0,
+      "position_in_column": 16,
+      "image_filename": "line_016.png",
+      "bbox": [
+        195,
+        849,
+        1517,
+        916
+      ],
+      "padded_bbox": [
+        185.0,
+        839.0,
+        1527.0,
+        926.0
+      ],
+      "score": 1.0,
+      "ocr_text": "Ig, ni de los mamenimientos que le vendieren por miendo en los Luigones, y Pla-",
+      "ocr_text_pre_llm": "Ig, ni de los mamenimientos que le vendieren por miendo en los Luigones, y Pla-",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 17,
+      "reading_order_index": 17,
+      "column": 0,
+      "position_in_column": 17,
+      "image_filename": "line_017.png",
+      "bbox": [
+        203,
+        905,
+        1054,
+        962
+      ],
+      "padded_bbox": [
+        193.0,
+        895.0,
+        1064.0,
+        972.0
+      ],
+      "score": 1.0,
+      "ocr_text": "zas para provifión de la Gente pobre, y viandiante,",
+      "ocr_text_pre_llm": "zas para provifión de la Gente pobre, y viandiante,",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 18,
+      "reading_order_index": 18,
+      "column": 0,
+      "position_in_column": 18,
+      "image_filename": "line_018.png",
+      "bbox": [
+        212,
+        949,
+        1524,
+        1008
+      ],
+      "padded_bbox": [
+        202.0,
+        939.0,
+        1534.0,
+        1018.0
+      ],
+      "score": 1.0,
+      "ocr_text": "y (20), De el gan, cocidoy (no de los Caballos) que fe vendieren, y trocareci enfil",
+      "ocr_text_pre_llm": "y (20), De el gan, cocidoy (no de los Caballos) que fe vendieren, y trocareci enfil",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 19,
+      "reading_order_index": 19,
+      "column": 0,
+      "position_in_column": 19,
+      "image_filename": "line_019.png",
+      "bbox": [
+        196,
+        998,
+        1524,
+        1064
+      ],
+      "padded_bbox": [
+        186.0,
+        988.0,
+        1534.0,
+        1074.0
+      ],
+      "score": 1.0,
+      "ocr_text": "llados, y enfrenados, ni de la Mpmedia, mide los Libros, asístido Lacín, como de",
+      "ocr_text_pre_llm": "llados, y enfrenados, ni de la Mpmedia, mide los Libros, asístido Lacín, como de",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 20,
+      "reading_order_index": 20,
+      "column": 0,
+      "position_in_column": 20,
+      "image_filename": "line_020.png",
+      "bbox": [
+        196,
+        1050,
+        1522,
+        1113
+      ],
+      "padded_bbox": [
+        186.0,
+        1040.0,
+        1532.0,
+        1123.0
+      ],
+      "score": 1.0,
+      "ocr_text": "Romance, enquandernados, ó popen enqueolernar eferígros de mano, 6 de molde,",
+      "ocr_text_pre_llm": "Romance, enquandernados, ó popen enqueolernar eferígros de mano, 6 de molde,",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 21,
+      "reading_order_index": 21,
+      "column": 0,
+      "position_in_column": 21,
+      "image_filename": "line_021.png",
+      "bbox": [
+        196,
+        1104,
+        1521,
+        1169
+      ],
+      "padded_bbox": [
+        186.0,
+        1094.0,
+        1531.0,
+        1179.0
+      ],
+      "score": 1.0,
+      "ocr_text": "ni de los Algunes, ni azores, ni del otras Avés, paraichar, no fe ha de pógar AM",
+      "ocr_text_pre_llm": "ni de los Algunes, ni azores, ni del otras Avés, paraichar, no fe ha de pógar AM",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 22,
+      "reading_order_index": 22,
+      "column": 0,
+      "position_in_column": 22,
+      "image_filename": "line_022.png",
+      "bbox": [
+        199,
+        1153,
+        914,
+        1207
+      ],
+      "padded_bbox": [
+        189.0,
+        1143.0,
+        924.0,
+        1217.0
+      ],
+      "score": 1.0,
+      "ocr_text": "SITORIA. La en el constituencia con ela sección se una informativo de",
+      "ocr_text_pre_llm": "SITORIA. La en el constituencia con ela sección se una informativo de",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 23,
+      "reading_order_index": 23,
+      "column": 0,
+      "position_in_column": 23,
+      "image_filename": "line_023.png",
+      "bbox": [
+        1418,
+        1157,
+        1521,
+        1217
+      ],
+      "padded_bbox": [
+        1408.0,
+        1147.0,
+        1531.0,
+        1227.0
+      ],
+      "score": 1.0,
+      "ocr_text": "1902.6425, 852,",
+      "ocr_text_pre_llm": "1902.6425, 852,",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 24,
+      "reading_order_index": 24,
+      "column": 0,
+      "position_in_column": 24,
+      "image_filename": "line_024.png",
+      "bbox": [
+        210,
+        1203,
+        1525,
+        1262
+      ],
+      "padded_bbox": [
+        200.0,
+        1193.0,
+        1535.0,
+        1272.0
+      ],
+      "score": 1.0,
+      "ocr_text": "yquí. De las sofos que feidieren en Calamiento, que fean bienes muebiles, Ómey",
+      "ocr_text_pre_llm": "yquí. De las sofos que feidieren en Calamiento, que fean bienes muebiles, Ómey",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 25,
+      "reading_order_index": 25,
+      "column": 0,
+      "position_in_column": 25,
+      "image_filename": "line_025.png",
+      "bbox": [
+        195,
+        1252,
+        1525,
+        1316
+      ],
+      "padded_bbox": [
+        185.0,
+        1242.0,
+        1535.0,
+        1326.0
+      ],
+      "score": 1.0,
+      "ocr_text": "Jesyni de los bienes de los Defuntos, que ferreparcièrein entre eléreideros, aunque",
+      "ocr_text_pre_llm": "Jesyni de los bienes de los Defuntos, que ferreparcièrein entre eléreideros, aunque",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 26,
+      "reading_order_index": 26,
+      "column": 0,
+      "position_in_column": 26,
+      "image_filename": "line_026.png",
+      "bbox": [
+        195,
+        1298,
+        1527,
+        1367
+      ],
+      "padded_bbox": [
+        185.0,
+        1288.0,
+        1537.0,
+        1377.0
+      ],
+      "score": 1.0,
+      "ocr_text": "ingervengan tiímetos, niciótras enfes, entre los tales Herrederías, que le los d'enjunos",
+      "ocr_text_pre_llm": "ingervengan tiímetos, niciótras enfes, entre los tales Herrederías, que le los d'enjunos",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 27,
+      "reading_order_index": 27,
+      "column": 0,
+      "position_in_column": 27,
+      "image_filename": "line_027.png",
+      "bbox": [
+        196,
+        1354,
+        1528,
+        1410
+      ],
+      "padded_bbox": [
+        186.0,
+        1344.0,
+        1538.0,
+        1420.0
+      ],
+      "score": 1.0,
+      "ocr_text": "duvados para füstigualaire mollecha, de pogad Abcovaldi, y para 1968, que una",
+      "ocr_text_pre_llm": "duvados para füstigualaire mollecha, de pogad Abcovaldi, y para 1968, que una",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 28,
+      "reading_order_index": 28,
+      "column": 0,
+      "position_in_column": 28,
+      "image_filename": "line_028.png",
+      "bbox": [
+        209,
+        1404,
+        1528,
+        1460
+      ],
+      "padded_bbox": [
+        199.0,
+        1394.0,
+        1538.0,
+        1470.0
+      ],
+      "score": 1.0,
+      "ocr_text": "«pos». Los Indiospor alcrono han de jugar Aleavalo, como elbó dicho, de logio",
+      "ocr_text_pre_llm": "«pos». Los Indiospor alcrono han de jugar Aleavalo, como elbó dicho, de logio",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 29,
+      "reading_order_index": 29,
+      "column": 0,
+      "position_in_column": 29,
+      "image_filename": "line_029.png",
+      "bbox": [
+        196,
+        1447,
+        1524,
+        1510
+      ],
+      "padded_bbox": [
+        186.0,
+        1437.0,
+        1534.0,
+        1520.0
+      ],
+      "score": 1.0,
+      "ocr_text": "vendieren, negociaren y contrataren, no fienido de Elfpañoles, 6 de Perforas",
+      "ocr_text_pre_llm": "vendieren, negociaren y contrataren, no fienido de Elfpañoles, 6 de Perforas",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 30,
+      "reading_order_index": 30,
+      "column": 0,
+      "position_in_column": 30,
+      "image_filename": "line_030.png",
+      "bbox": [
+        192,
+        1496,
+        1528,
+        1562
+      ],
+      "padded_bbox": [
+        182.0,
+        1486.0,
+        1538.0,
+        1572.0
+      ],
+      "score": 1.0,
+      "ocr_text": "que éleban Alcavalas porque, lo que vendieren, que no Ted de Indios, libro ubéndos",
+      "ocr_text_pre_llm": "que éleban Alcavalas porque, lo que vendieren, que no Ted de Indios, libro ubéndos",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 31,
+      "reading_order_index": 31,
+      "column": 0,
+      "position_in_column": 31,
+      "image_filename": "line_031.png",
+      "bbox": [
+        195,
+        1547,
+        1531,
+        1606
+      ],
+      "padded_bbox": [
+        185.0,
+        1537.0,
+        1541.0,
+        1616.0
+      ],
+      "score": 1.0,
+      "ocr_text": "Pazíbnas, que fó ellos (lo vendieran, debieran Alcavala, la baim de pogona). El la julos",
+      "ocr_text_pre_llm": "Pazíbnas, que fó ellos (lo vendieran, debieran Alcavala, la baim de pogona). El la julos",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 32,
+      "reading_order_index": 32,
+      "column": 0,
+      "position_in_column": 32,
+      "image_filename": "line_032.png",
+      "bbox": [
+        213,
+        1603,
+        1527,
+        1659
+      ],
+      "padded_bbox": [
+        203.0,
+        1593.0,
+        1537.0,
+        1669.0
+      ],
+      "score": 1.0,
+      "ocr_text": "«C.C. Vipora que, por lit orden, no fe encubrala dicha Allcayain, fe les amometre,",
+      "ocr_text_pre_llm": "«C.C. Vipora que, por lit orden, no fe encubrala dicha Allcayain, fe les amometre,",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 33,
+      "reading_order_index": 33,
+      "column": 0,
+      "position_in_column": 33,
+      "image_filename": "line_033.png",
+      "bbox": [
+        195,
+        1651,
+        1531,
+        1712
+      ],
+      "padded_bbox": [
+        185.0,
+        1641.0,
+        1541.0,
+        1722.0
+      ],
+      "score": 1.0,
+      "ocr_text": "y apareción teada vez que pareciere, cofas que fe vendieren, que no fami",
+      "ocr_text_pre_llm": "y apareción teada vez que pareciere, cofas que fe vendieren, que no fami",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 34,
+      "reading_order_index": 34,
+      "column": 0,
+      "position_in_column": 34,
+      "image_filename": "line_034.png",
+      "bbox": [
+        193,
+        1695,
+        1528,
+        1764
+      ],
+      "padded_bbox": [
+        183.0,
+        1685.0,
+        1538.0,
+        1774.0
+      ],
+      "score": 1.0,
+      "ocr_text": "Duyas, Ó de otros Indios, las declarengrue no tengan en La Tienda mercidería al",
+      "ocr_text_pre_llm": "Duyas, Ó de otros Indios, las declarengrue no tengan en La Tienda mercidería al",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 35,
+      "reading_order_index": 35,
+      "column": 0,
+      "position_in_column": 35,
+      "image_filename": "line_035.png",
+      "bbox": [
+        193,
+        1752,
+        1528,
+        1813
+      ],
+      "padded_bbox": [
+        183.0,
+        1742.0,
+        1538.0,
+        1823.0
+      ],
+      "score": 1.0,
+      "ocr_text": "guna, ni labor, ni obra de fueficio, de de",
+      "ocr_text_pre_llm": "guna, ni labor, ni obra de fueficio, de de",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 36,
+      "reading_order_index": 36,
+      "column": 0,
+      "position_in_column": 36,
+      "image_filename": "line_036.png",
+      "bbox": [
+        192,
+        1801,
+        1521,
+        1860
+      ],
+      "padded_bbox": [
+        182.0,
+        1791.0,
+        1531.0,
+        1870.0
+      ],
+      "score": 1.0,
+      "ocr_text": "deba Alcovajapata venden como de otros Indiosy que fía Iguha copía vendieren de",
+      "ocr_text_pre_llm": "deba Alcovajapata venden como de otros Indiosy que fía Iguha copía vendieren de",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 37,
+      "reading_order_index": 37,
+      "column": 0,
+      "position_in_column": 37,
+      "image_filename": "line_037.png",
+      "bbox": [
+        193,
+        1846,
+        1520,
+        1912
+      ],
+      "padded_bbox": [
+        183.0,
+        1836.0,
+        1530.0,
+        1922.0
+      ],
+      "score": 1.0,
+      "ocr_text": "Pertlomas que deben Alcavola la defcubran, y manifieffen, abercibiendoles, que fí",
+      "ocr_text_pre_llm": "Pertlomas que deben Alcavola la defcubran, y manifieffen, abercibiendoles, que fí",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 38,
+      "reading_order_index": 38,
+      "column": 0,
+      "position_in_column": 38,
+      "image_filename": "line_038.png",
+      "bbox": [
+        192,
+        1899,
+        1535,
+        1958
+      ],
+      "padded_bbox": [
+        182.0,
+        1889.0,
+        1545.0,
+        1968.0
+      ],
+      "score": 1.0,
+      "ocr_text": "fuecha la dichanamorefancion, paraciereslo contraños, fe cobráriade El 16. Al Moviatro",
+      "ocr_text_pre_llm": "fuecha la dichanamorefancion, paraciereslo contraños, fe cobráriade El 16. Al Moviatro",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 39,
+      "reading_order_index": 39,
+      "column": 0,
+      "position_in_column": 39,
+      "image_filename": "line_039.png",
+      "bbox": [
+        190,
+        1943,
+        1531,
+        2015
+      ],
+      "padded_bbox": [
+        180.0,
+        1933.0,
+        1541.0,
+        2025.0
+      ],
+      "score": 1.0,
+      "ocr_text": "de lo que allí encubriere, con el dobloy y étard en la Carcelí treinta dicas, dividuló",
+      "ocr_text_pre_llm": "de lo que allí encubriere, con el dobloy y étard en la Carcelí treinta dicas, dividuló",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 40,
+      "reading_order_index": 40,
+      "column": 0,
+      "position_in_column": 40,
+      "image_filename": "line_040.png",
+      "bbox": [
+        190,
+        1996,
+        1538,
+        2061
+      ],
+      "padded_bbox": [
+        180.0,
+        1986.0,
+        1548.0,
+        2071.0
+      ],
+      "score": 1.0,
+      "ocr_text": "qualrístico de desseguer adículos.C. el temposivo en la enferra y enocional. El cargo establado",
+      "ocr_text_pre_llm": "qualrístico de desseguer adículos.C. el temposivo en la enferra y enocional. El cargo establado",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 41,
+      "reading_order_index": 41,
+      "column": 0,
+      "position_in_column": 41,
+      "image_filename": "line_041.png",
+      "bbox": [
+        203,
+        2051,
+        1537,
+        2114
+      ],
+      "padded_bbox": [
+        193.0,
+        2041.0,
+        1547.0,
+        2124.0
+      ],
+      "score": 1.0,
+      "ocr_text": "(o)». De la planas cobre, y infutas, y ide las demas colas, que le compañencia y queñó",
+      "ocr_text_pre_llm": "(o)». De la planas cobre, y infutas, y ide las demas colas, que le compañencia y queñó",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 42,
+      "reading_order_index": 42,
+      "column": 0,
+      "position_in_column": 42,
+      "image_filename": "line_042.png",
+      "bbox": [
+        190,
+        2095,
+        1534,
+        2161
+      ],
+      "padded_bbox": [
+        180.0,
+        2085.0,
+        1544.0,
+        2171.0
+      ],
+      "score": 1.0,
+      "ocr_text": "diánero, para látarag la Klomada, no de había págón, dificavalavos en una una una una",
+      "ocr_text_pre_llm": "diánero, para látarag la Klomada, no de había págón, dificavalavos en una una una una",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 43,
+      "reading_order_index": 43,
+      "column": 0,
+      "position_in_column": 43,
+      "image_filename": "line_043.png",
+      "bbox": [
+        226,
+        2151,
+        1535,
+        2211
+      ],
+      "padded_bbox": [
+        216.0,
+        2141.0,
+        1545.0,
+        2221.0
+      ],
+      "score": 1.0,
+      "ocr_text": "1913. De las Arómás ofemitivasgy, de feudistas y de los júbiones de Mallamó de histología",
+      "ocr_text_pre_llm": "1913. De las Arómás ofemitivasgy, de feudistas y de los júbiones de Mallamó de histología",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 44,
+      "reading_order_index": 44,
+      "column": 0,
+      "position_in_column": 44,
+      "image_filename": "line_044.png",
+      "bbox": [
+        190,
+        2201,
+        1534,
+        2273
+      ],
+      "padded_bbox": [
+        180.0,
+        2191.0,
+        1544.0,
+        2283.0
+      ],
+      "score": 1.0,
+      "ocr_text": "gan Alcavala, estando los tales Armas fechas, y acabadas en la fúrima quiente finelley",
+      "ocr_text_pre_llm": "gan Alcavala, estando los tales Armas fechas, y acabadas en la fúrima quiente finelley",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 45,
+      "reading_order_index": 45,
+      "column": 0,
+      "position_in_column": 45,
+      "image_filename": "line_045.png",
+      "bbox": [
+        205,
+        2246,
+        297,
+        2326
+      ],
+      "padded_bbox": [
+        195.0,
+        2236.0,
+        307.0,
+        2336.0
+      ],
+      "score": 1.0,
+      "ocr_text": "aolla",
+      "ocr_text_pre_llm": "aolla",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    },
+    {
+      "line_index": 46,
+      "reading_order_index": 46,
+      "column": 0,
+      "position_in_column": 46,
+      "image_filename": "line_046.png",
+      "bbox": [
+        233,
+        2503,
+        615,
+        2580
+      ],
+      "padded_bbox": [
+        223.0,
+        2493.0,
+        625.0,
+        2582.0
+      ],
+      "score": 1.0,
+      "ocr_text": "exe llegóxx por",
+      "ocr_text_pre_llm": "exe llegóxx por",
+      "ocr_text_corrected": "",
+      "ocr_text_manual": "",
+      "confidence": 1.0,
+      "manually_edited": false
+    }
+  ],
+  "total_lines": 47,
+  "pipeline": "fallback_with_llm",
+  "gemini_processing": true,
+  "llm_corrected": false,
+  "manually_edited": false,
+  "timestamp": 1779896069.2153678
+}

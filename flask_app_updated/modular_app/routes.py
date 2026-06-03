@@ -22,13 +22,15 @@ def create_routes(config, ocr_processing_service, llm_service) -> Blueprint:
     def home():
         """Serve the main HTML file directly"""
         try:
-            # Look for the HTML file in the current directory
+            # Get the directory where routes.py lives
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            
             html_files = ['index.html', 'paste.html', 'main.html']
             for html_file in html_files:
-                if os.path.exists(html_file):
-                    return send_file(html_file)
+                full_path = os.path.join(base_dir, html_file)
+                if os.path.exists(full_path):
+                    return send_file(full_path)
             
-            # If no HTML file found, return a basic error page
             return """
             <!DOCTYPE html>
             <html>
@@ -125,11 +127,15 @@ def create_routes(config, ocr_processing_service, llm_service) -> Blueprint:
                     inference_data = create_inference_data(
                         filename=filename,
                         original_text=regular_ocr_text,
+                        pre_llm_text=line_ocr_result.get('pre_llm_text', regular_ocr_text),
                         corrected_text=corrected_text,
+                        manual_text='',
                         line_segments=line_ocr_result['line_segments'],
                         total_lines=line_ocr_result['total_lines'],
                         pipeline=line_ocr_result.get('pipeline', 'unknown'),
-                        gemini_processing=line_ocr_result.get('gemini_processing', False)
+                        gemini_processing=line_ocr_result.get('gemini_processing', False),
+                        llm_corrected=line_ocr_result.get('llm_corrected', False),
+                        manually_edited=False
                     )
                 else:
                     # Fallback to regular OCR
@@ -558,9 +564,13 @@ def create_routes(config, ocr_processing_service, llm_service) -> Blueprint:
         # Check LLM availability
         gemini_available = hasattr(llm_service, 'config') and bool(llm_service.config.gemini_api_key)
         hf_available = hasattr(llm_service, 'config') and bool(llm_service.config.hf_api_token)
-        local_llama_available = (hasattr(llm_service, 'config') and 
-                               llm_service.config.llama_model_path and 
-                               os.path.exists(llm_service.config.llama_model_path))
+        # Replace the local_llama_available line with this
+        try:
+            import requests as req
+            ollama_response = req.get("http://localhost:11434", timeout=3)
+            local_llama_available = "Ollama is running" in ollama_response.text
+        except Exception:
+            local_llama_available = False
         
         # Check if Llama license acceptance is required
         llama_license_required = True  # Always true since it's a gated model
@@ -584,5 +594,202 @@ def create_routes(config, ocr_processing_service, llm_service) -> Blueprint:
             "llama_license_url": "https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct",
             "notes": "; ".join(notes) if notes else "All available backends ready"
         })
+
+    @routes_bp.route('/get_editable_text/<filename>')
+    def get_editable_text(filename):
+        """Get OCR text in editable format with line by line breakdown"""
+        try:
+            inference_path = os.path.join(config.inference_folder, f"{filename}.json")
+            data = load_json_data(inference_path)
+
+            if not data:
+                return jsonify({'error': 'No inference found'}), 404
+
+            segments = data.get('line_segments', [])
+            editable_lines = []
+
+            for segment in segments:
+                editable_lines.append({
+                    'line_index': segment.get('line_index', 0),
+                    'original': segment.get('ocr_text', ''),
+                    'pre_llm': segment.get('ocr_text_pre_llm',
+                               segment.get('ocr_text', '')),
+                    'corrected': segment.get('ocr_text_corrected',
+                                 segment.get('ocr_text', '')),
+                    'manual': segment.get('ocr_text_manual', ''),
+                    'correction_status': segment.get('correction_status', 'none'),
+                    'manually_edited': segment.get('manually_edited', False)
+                })
+
+            return jsonify({
+                'filename': filename,
+                'total_lines': len(editable_lines),
+                'lines': editable_lines,
+                'original_text': data.get('original_text', ''),
+                'pre_llm_text': data.get('pre_llm_text', ''),
+                'corrected_text': data.get('corrected_text', ''),
+                'manual_text': data.get('manual_text', ''),
+                'full_text': (
+                    data.get('manual_text') or
+                    data.get('corrected_text') or
+                    data.get('pre_llm_text') or
+                    data.get('original_text') or ''
+                )
+            })
+
+        except Exception as e:
+            print(f"Error getting editable text: {e}")
+            return jsonify({'error': str(e)}), 500
+
+
+    @routes_bp.route('/save_edits', methods=['POST'])
+    def save_edits():
+        """Save manually edited OCR text"""
+        try:
+            data = request.json
+            filename = data.get('filename')
+            edited_lines = data.get('lines', [])
+
+            if not filename:
+                return jsonify({'success': False, 'error': 'No filename provided'})
+
+            inference_path = os.path.join(config.inference_folder, f"{filename}.json")
+            inference_data = load_json_data(inference_path)
+
+            if not inference_data:
+                return jsonify({'success': False, 'error': 'Inference file not found'})
+
+            segments = inference_data.get('line_segments', [])
+            edited_map = {e['line_index']: e['corrected'] for e in edited_lines}
+
+            for segment in segments:
+                idx = segment.get('line_index', 0)
+                if idx in edited_map:
+                    segment['ocr_text_manual'] = edited_map[idx]
+                    segment['manually_edited'] = True
+
+            manual_text = '\n'.join([
+                s.get('ocr_text_manual', '')
+                for s in segments
+                if s.get('ocr_text_manual', '').strip()
+            ])
+
+            inference_data['line_segments'] = segments
+            inference_data['manual_text'] = manual_text
+            inference_data['manually_edited'] = True
+            inference_data['last_updated'] = time.time()
+
+            save_json_data(inference_data, inference_path)
+
+            return jsonify({
+                'success': True,
+                'total_lines': len(segments),
+                'manual_text': manual_text
+            })
+
+        except Exception as e:
+            print(f"Error saving edits: {e}")
+            return jsonify({'success': False, 'error': str(e)})
+
+
+    @routes_bp.route('/download_text/<filename>')
+    def download_text(filename):
+        """Download OCR result as plain text using best available text"""
+        try:
+            inference_path = os.path.join(config.inference_folder, f"{filename}.json")
+            data = load_json_data(inference_path)
+
+            if not data:
+                return jsonify({'error': 'No inference found'}), 404
+
+            text = (
+                data.get('manual_text') or
+                data.get('corrected_text') or
+                data.get('pre_llm_text') or
+                data.get('original_text') or ''
+            )
+
+            txt_filename = os.path.splitext(filename)[0] + '.txt'
+            txt_path = os.path.join(config.inference_folder, txt_filename)
+
+            with open(txt_path, 'w', encoding='utf-8') as f:
+                f.write(text)
+
+            return send_file(
+                txt_path,
+                as_attachment=True,
+                download_name=txt_filename,
+                mimetype='text/plain'
+            )
+
+        except Exception as e:
+            print(f"Error downloading text: {e}")
+            return jsonify({'error': str(e)}), 500
+
+
+    @routes_bp.route('/download_lines/<filename>')
+    def download_lines(filename):
+        """Download OCR result as text with one line per detected text line"""
+        try:
+            inference_path = os.path.join(config.inference_folder, f"{filename}.json")
+            data = load_json_data(inference_path)
+
+            if not data:
+                return jsonify({'error': 'No inference found'}), 404
+
+            lines = []
+            segments = data.get('line_segments', [])
+
+            if segments:
+                for segment in segments:
+                    text = (
+                        segment.get('ocr_text_manual') or
+                        segment.get('ocr_text_corrected') or
+                        segment.get('ocr_text_pre_llm') or
+                        segment.get('ocr_text') or ''
+                    ).strip()
+                    if text:
+                        lines.append(text)
+            else:
+                full_text = (
+                    data.get('manual_text') or
+                    data.get('corrected_text') or
+                    data.get('pre_llm_text') or
+                    data.get('original_text') or ''
+                )
+                lines = [l for l in full_text.split('\n') if l.strip()]
+
+            txt_filename = os.path.splitext(filename)[0] + '_lines.txt'
+            txt_path = os.path.join(config.inference_folder, txt_filename)
+
+            with open(txt_path, 'w', encoding='utf-8') as f:
+                f.write('\n'.join(lines))
+
+            return send_file(
+                txt_path,
+                as_attachment=True,
+                download_name=txt_filename,
+                mimetype='text/plain'
+            )
+
+        except Exception as e:
+            print(f"Error downloading lines: {e}")
+            return jsonify({'error': str(e)}), 500
+
+
+    @routes_bp.route('/editor')
+    def editor():
+        """Serve the OCR editor page"""
+        try:
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            editor_path = os.path.join(base_dir, 'editor.html')
+            if os.path.exists(editor_path):
+                return send_file(editor_path)
+            return "Editor not found - ensure editor.html is in flask_app_updated/", 404
+        except Exception as e:
+            return f"Error: {str(e)}", 500
+
+
+    return routes_bp
 
     return routes_bp

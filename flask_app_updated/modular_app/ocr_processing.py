@@ -89,53 +89,57 @@ class OCRProcessingService:
                             'padded_bbox': padded_bbox_list,
                             'score': float(score),
                             'ocr_text': str(ocr_result['text']),
-                            'confidence': float(ocr_result['confidence'])
+                            'ocr_text_pre_llm': str(ocr_result['text']),  # snapshot before LLM
+                            'ocr_text_corrected': '',
+                            'ocr_text_manual': '',
+                            'confidence': float(ocr_result['confidence']),
+                            'manually_edited': False
                         })
                     
                     # Sort line segments by reading order for final output
                     line_segments.sort(key=lambda x: x['reading_order_index'])
                     
                     # Apply LLM post-processing if available and not skipped
+                    # Assemble pre-LLM text before correction runs
+                    pre_llm_text_lines = [
+                        s.get('ocr_text', '') for s in line_segments
+                        if s.get('ocr_text', '').strip()
+                    ]
+                    full_pre_llm_text = "\n".join(pre_llm_text_lines)
+
                     if hasattr(self.llm_service, 'process_line_segments_with_gemini') and not skip_gemini:
                         print("Applying LLM text correction...")
                         corrected_segments = self.llm_service.process_line_segments_with_gemini(line_segments)
-                        
-                        # Create full corrected text
-                        corrected_text_lines = []
-                        for segment in corrected_segments:
-                            corrected_text = segment.get('ocr_text_corrected', segment.get('ocr_text', ''))
-                            if corrected_text.strip():
-                                corrected_text_lines.append(corrected_text)
-                        
+
+                        corrected_text_lines = [
+                            s.get('ocr_text_corrected', s.get('ocr_text', ''))
+                            for s in corrected_segments
+                            if s.get('ocr_text_corrected', s.get('ocr_text', '')).strip()
+                        ]
                         full_corrected_text = "\n".join(corrected_text_lines)
-                        
+
                         return {
                             'success': True,
                             'line_segments': corrected_segments,
                             'total_lines': len(corrected_segments),
                             'pipeline': 'advanced_with_llm',
                             'padding_info': padding_info,
+                            'pre_llm_text': full_pre_llm_text,
                             'full_corrected_text': full_corrected_text,
-                            'gemini_processing': True
+                            'gemini_processing': True,
+                            'llm_corrected': True
                         }
                     else:
-                        # Create full raw text (no LLM correction)
-                        raw_text_lines = []
-                        for segment in line_segments:
-                            raw_text = segment.get('ocr_text', '')
-                            if raw_text.strip():
-                                raw_text_lines.append(raw_text)
-                        
-                        full_raw_text = "\n".join(raw_text_lines)
-                        
                         return {
                             'success': True,
                             'line_segments': line_segments,
                             'total_lines': len(line_segments),
                             'pipeline': 'advanced_no_llm' if skip_gemini else 'advanced',
                             'padding_info': padding_info,
-                            'full_raw_text': full_raw_text,
-                            'gemini_processing': False
+                            'pre_llm_text': full_pre_llm_text,
+                            'full_raw_text': full_pre_llm_text,
+                            'gemini_processing': False,
+                            'llm_corrected': False
                         }
                     
                 except Exception as e:
@@ -168,7 +172,7 @@ class OCRProcessingService:
                 
                 line_segments.append({
                     'line_index': int(i),
-                    'reading_order_index': int(i),  # Sequential for fallback
+                    'reading_order_index': int(i),
                     'column': 0,
                     'position_in_column': int(i),
                     'image_filename': crop_filename,
@@ -176,50 +180,54 @@ class OCRProcessingService:
                     'padded_bbox': padded_bbox_list,
                     'score': float(scores[i]),
                     'ocr_text': str(ocr_result['text']),
-                    'confidence': float(ocr_result['confidence'])
+                    'ocr_text_pre_llm': str(ocr_result['text']),  # snapshot before LLM
+                    'ocr_text_corrected': '',
+                    'ocr_text_manual': '',
+                    'confidence': float(ocr_result['confidence']),
+                    'manually_edited': False
                 })
             
             # Apply LLM post-processing if available and not skipped
+            # Assemble pre-LLM text before correction runs
+            pre_llm_text_lines = [
+                s.get('ocr_text', '') for s in line_segments
+                if s.get('ocr_text', '').strip()
+            ]
+            full_pre_llm_text = "\n".join(pre_llm_text_lines)
+
             if hasattr(self.llm_service, 'process_line_segments_with_gemini') and not skip_gemini:
                 print("Applying LLM text correction to fallback results...")
                 corrected_segments = self.llm_service.process_line_segments_with_gemini(line_segments)
-                
-                # Create full corrected text
-                corrected_text_lines = []
-                for segment in corrected_segments:
-                    corrected_text = segment.get('ocr_text_corrected', segment.get('ocr_text', ''))
-                    if corrected_text.strip():
-                        corrected_text_lines.append(corrected_text)
-                
+
+                corrected_text_lines = [
+                    s.get('ocr_text_corrected', s.get('ocr_text', ''))
+                    for s in corrected_segments
+                    if s.get('ocr_text_corrected', s.get('ocr_text', '')).strip()
+                ]
                 full_corrected_text = "\n".join(corrected_text_lines)
-                
+
                 return {
                     'success': True,
                     'line_segments': corrected_segments,
                     'total_lines': len(corrected_segments),
                     'pipeline': 'fallback_with_llm',
+                    'pre_llm_text': full_pre_llm_text,
                     'full_corrected_text': full_corrected_text,
-                    'gemini_processing': True
+                    'gemini_processing': True,
+                    'llm_corrected': True
                 }
             else:
-                # Create full raw text (no LLM correction)
-                raw_text_lines = []
-                for segment in line_segments:
-                    raw_text = segment.get('ocr_text', '')
-                    if raw_text.strip():
-                        raw_text_lines.append(raw_text)
-                
-                full_raw_text = "\n".join(raw_text_lines)
-                
                 return {
                     'success': True,
                     'line_segments': line_segments,
                     'total_lines': len(line_segments),
                     'pipeline': 'fallback_no_llm' if skip_gemini else 'fallback',
-                    'full_raw_text': full_raw_text,
-                    'gemini_processing': False
+                    'pre_llm_text': full_pre_llm_text,
+                    'full_raw_text': full_pre_llm_text,
+                    'gemini_processing': False,
+                    'llm_corrected': False
                 }
-            
+                        
         except Exception as e:
             print(f"Line segmentation OCR error: {str(e)}")
             return {
@@ -422,11 +430,15 @@ class OCRProcessingService:
                 inference_data = create_inference_data(
                     filename=page_filename,
                     original_text=regular_ocr_text,
+                    pre_llm_text=line_ocr_result.get('pre_llm_text', regular_ocr_text),
                     corrected_text=corrected_text,
+                    manual_text='',
                     line_segments=line_ocr_result.get('line_segments', []),
                     total_lines=line_ocr_result.get('total_lines', 0),
                     pipeline=line_ocr_result.get('pipeline', 'unknown'),
                     gemini_processing=line_ocr_result.get('gemini_processing', False),
+                    llm_corrected=line_ocr_result.get('llm_corrected', False),
+                    manually_edited=False,
                     pdf_parent=pdf_filename,
                     page_index=page_index,
                     total_pages=total_pages,

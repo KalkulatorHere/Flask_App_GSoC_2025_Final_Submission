@@ -26,19 +26,30 @@ def create_app() -> Flask:
     try:
         # Load configuration
         config = get_config()
-        
+
         logger.info("Starting Modular OCR Flask Application...")
-        
+
         # Print configuration summary
         print_config_summary(config)
-        
-        # Setup directories
+
+        # Make all folder paths absolute BEFORE creating directories
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        config.upload_folder = os.path.join(base_dir, config.upload_folder)
+        config.annotation_folder = os.path.join(base_dir, config.annotation_folder)
+        config.inference_folder = os.path.join(base_dir, config.inference_folder)
+        config.line_segments_folder = os.path.join(base_dir, config.line_segments_folder)
+
+        # Now setup directories using the correct absolute paths
         setup_directories(config)
-        
+
         # Create Flask app
         app = Flask(__name__)
         app.config['UPLOAD_FOLDER'] = config.upload_folder
         app.config['MAX_CONTENT_LENGTH'] = config.max_file_size
+
+        # Keep the debug print temporarily
+        print(f"Upload folder resolved to: {config.upload_folder}")
+        print(f"Upload folder exists: {os.path.exists(config.upload_folder)}")
         
         # Enable CORS
         CORS(app)
@@ -70,6 +81,18 @@ def create_app() -> Flask:
         except Exception as e:
             logger.warning(f"LLM fallback test failed: {e}")
         
+        # Pre-load Ollama model into VRAM at startup
+        import requests
+        try:
+            requests.post("http://localhost:11434/api/generate",
+                json={"model": "llama3.1:70b-instruct-q4_K_M", 
+                    "prompt": "hello",
+                    "stream": False},
+                timeout=300)
+            logger.info("Ollama model pre-loaded successfully")
+        except Exception as e:
+            logger.warning(f"Could not pre-load Ollama model: {e}")
+            
         # Register routes
         logger.info("Registering routes...")
         routes_bp = create_routes(config, ocr_processing_service, llm_service)
@@ -96,7 +119,7 @@ def main():
     print("=" * 60)
     
     # Run the application
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)
 
 if __name__ == '__main__':
     main()

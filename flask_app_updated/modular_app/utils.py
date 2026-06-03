@@ -157,19 +157,28 @@ def load_json_data(filepath: str) -> Optional[Dict]:
         print(f"Error loading JSON data from {filepath}: {e}")
         return None
 
-def create_inference_data(filename: str, original_text: str = "", corrected_text: str = "", 
-                         line_segments: List = None, total_lines: int = 0, 
+def create_inference_data(filename: str, original_text: str = "",
+                         pre_llm_text: str = "",
+                         corrected_text: str = "",
+                         manual_text: str = "",
+                         line_segments: List = None, total_lines: int = 0,
                          pipeline: str = "unknown", gemini_processing: bool = False,
+                         llm_corrected: bool = False,
+                         manually_edited: bool = False,
                          **kwargs) -> Dict:
     """Create standardized inference data structure"""
     return {
         'image': filename,
         'original_text': original_text,
+        'pre_llm_text': pre_llm_text if pre_llm_text else original_text,
         'corrected_text': corrected_text,
+        'manual_text': manual_text,
         'line_segments': line_segments or [],
         'total_lines': total_lines,
         'pipeline': pipeline,
         'gemini_processing': gemini_processing,
+        'llm_corrected': llm_corrected,
+        'manually_edited': manually_edited,
         'timestamp': time.time(),
         **kwargs
     }
@@ -203,21 +212,45 @@ def adjust_line_indices_for_continuation(line_segments: List[Dict], start_index:
         segment['reading_order_index'] += start_index
         segment['position_in_column'] += start_index
 
-def combine_text_from_segments(line_segments: List[Dict]) -> str:
-    """Combine text from line segments"""
+def combine_text_from_segments(line_segments: List[Dict],
+                                prefer: str = 'best') -> str:
+    """Combine text from line segments using specified text field.
+
+    prefer options:
+        best     - manual > corrected > pre_llm > ocr_text
+        manual   - ocr_text_manual only
+        corrected - ocr_text_corrected only
+        pre_llm  - ocr_text_pre_llm only
+        raw      - ocr_text only
+    """
     if not line_segments:
         return ""
-    
-    # Sort by line index and extract text
-    sorted_segments = sorted(line_segments, key=lambda x: x.get('line_index', 0))
+
+    sorted_segments = sorted(line_segments,
+                             key=lambda x: x.get('line_index', 0))
     text_lines = []
-    
+
     for segment in sorted_segments:
-        # Try corrected text first, then original OCR text
-        text = segment.get('ocr_text_corrected', segment.get('ocr_text', ''))
-        if text.strip():
+        if prefer == 'manual':
+            text = segment.get('ocr_text_manual', '')
+        elif prefer == 'corrected':
+            text = segment.get('ocr_text_corrected', '')
+        elif prefer == 'pre_llm':
+            text = segment.get('ocr_text_pre_llm', '')
+        elif prefer == 'raw':
+            text = segment.get('ocr_text', '')
+        else:
+            # best available
+            text = (
+                segment.get('ocr_text_manual') or
+                segment.get('ocr_text_corrected') or
+                segment.get('ocr_text_pre_llm') or
+                segment.get('ocr_text', '')
+            )
+
+        if text and text.strip():
             text_lines.append(text.strip())
-    
+
     return "\n".join(text_lines)
 
 def get_last_two_lines(text: str) -> str:
